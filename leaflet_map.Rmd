@@ -1,0 +1,33 @@
+---
+output: html_document
+---
+#September 10, 2017
+
+## **Leaflet map showing public schools in the city of Barranquilla, Colombia**
+
+```{r, echo=FALSE}
+library(leaflet)
+library(tidyverse)
+```
+
+
+```{r, echo=FALSE}
+
+public_schools <- suppressMessages(read_csv('https://raw.githubusercontent.com/ajpf/Leaflet-Map/master/schools.csv'))
+
+baq_map <- public_schools %>%
+        leaflet() %>% 
+        addTiles() %>% 
+        addCircleMarkers(lng=~lon, lat=~lat, weight=1,
+                   radius=5, color='blue', fillOpacity = 0.5,
+                   popup=paste(public_schools$colegio)
+                   )
+
+baq_map
+```
+
+Click on the circles for the school name.
+                   
+
+
+
