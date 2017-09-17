@@ -1,32 +1,28 @@
 ---
 output: html_document
 ---
-#September 10, 2017
+#September 17, 2017
 
-## **Leaflet map showing public schools in the city of Barranquilla, Colombia**
+## **Plotly bar chart showing sales using ggplotly**
 
 ```{r, echo=FALSE}
-library(leaflet)
-library(tidyverse)
+suppressMessages(library(plotly))
+suppressMessages(library(tidyverse))
 ```
 
 
 ```{r, echo=FALSE}
 
-public_schools <- suppressMessages(read_csv('https://raw.githubusercontent.com/ajpf/Leaflet-Map/master/schools.csv'))
+sales <- suppressMessages(read_csv('https://raw.githubusercontent.com/alvaropabon/plotly_page/master/sales.csv'))
+sales$period<-as.factor(sales$period)
 
-baq_map <- public_schools %>%
-        leaflet() %>% 
-        addTiles() %>% 
-        addCircleMarkers(lng=~lon, lat=~lat, weight=1,
-                   radius=5, color='blue', fillOpacity = 0.5,
-                   popup=paste(public_schools$colegio)
-                   )
+chart<-ggplotly(sales %>%
+        ggplot(aes(period, sales)) +
+        geom_bar(fill='blue',stat = 'identity') +
+        labs(title='Sales from January to May', x='Months', y='Sales'))
 
-baq_map
+chart
 ```
-
-Click on the circles for the school name.
                    
 
 
